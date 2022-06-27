@@ -3,6 +3,7 @@ import os
 
 import paths
 
+
 DOWNLOADS_PATH = paths.DOWNLOADS_PATH
 WORKING_DIR = DOWNLOADS_PATH + "/mods"
 
@@ -10,13 +11,10 @@ WORKING_DIR = DOWNLOADS_PATH + "/mods"
 def renamer():
     for file in os.listdir(WORKING_DIR):
         if file.endswith(".zip"):
-            print(file)
             mod_id = file.split(".")[0]
-            print(mod_id)
 
             with zipfile.ZipFile(f"{WORKING_DIR}/{file}", "r") as zip_ref:
-                print(zip_ref)
-                zip_ref.extractall(f"{WORKING_DIR}/{mod_id}")
+                zip_ref.extractall(f"{WORKING_DIR}")
 
             os.remove(f"{WORKING_DIR}/{file}")
             for inside_file in os.listdir(f"{WORKING_DIR}/{mod_id}"):
@@ -24,7 +22,6 @@ def renamer():
                     with zipfile.ZipFile(
                         f"{WORKING_DIR}/{mod_id}/{inside_file}", "r"
                     ) as zip_ref:
-                        print(zip_ref)
                         zip_ref.extractall(f"{WORKING_DIR}/{mod_id}")
                     os.remove(f"{WORKING_DIR}/{mod_id}/{inside_file}")
 
@@ -37,6 +34,8 @@ def renamer():
                     lines[i] = f""
 
             lines.append(f'path = "mod/{mod_name}"')
+
+            print(mod_name)
 
             with open(f"{WORKING_DIR}/{mod_name}.mod", "w") as future_mod_file:
                 for line in lines:
